@@ -9,7 +9,7 @@ services:
     ports:
       - 6379:6379
     volumes:
-      - ./data/redis:/data/kafka
+      - ./redis:/data
   zookeeper:
     image: cfei/zookeeper:latest-multiarch
     container_name: zookeeper
@@ -30,10 +30,10 @@ services:
       - 9092:9092
       - 9093:9093
     volumes:
-      - ./data/kafka:/data/kafka
+      - ./kafka:/data/kafka
     environment:
       KAFKA_BROKER_ID: 1  # Kafka 集群中本容器的唯一编号
-      KAFKA_ZOOKEEPER_CONNECT: zoo:2181  # Kafka 将连接到的 Zookeeper URI 的逗号分隔列表
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181  # Kafka 将连接到的 Zookeeper URI 的逗号分隔列表
       KAFKA_ADVERTISED_LISTENERS: INTERNAL://localhost:9093,EXTERNAL://localhost:9092
       KAFKA_LISTENERS: INTERNAL://0.0.0.0:9093,EXTERNAL://0.0.0.0:9092
     depends_on:
