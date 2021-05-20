@@ -19,7 +19,7 @@ services:
       - 2888:2888
       - 3888:3888
     environment:
-      ZOO_ID: 1  # ZK 集群中本容器的唯一编号
+      ZOO_ID: ${MACHINE_ID}  # ZK 集群中本容器的唯一编号
       ZOO_PORT: 2181
       ZOO_SERVERS: ${ZOO_SERVERS}  # ZK 集群中所有实例的逗号分隔列表
   kafka:
@@ -32,7 +32,7 @@ services:
     volumes:
       - ./kafka:/data/kafka
     environment:
-      KAFKA_BROKER_ID: 1  # Kafka 集群中本容器的唯一编号
+      KAFKA_BROKER_ID: ${MACHINE_ID}  # Kafka 集群中本容器的唯一编号
       KAFKA_ZOOKEEPER_CONNECT: ${ZOO_CONNECT}  # Kafka 将连接到的 Zookeeper URI 的逗号分隔列表
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_ADVERTISED_LISTENERS: INTERNAL://localhost:9093,EXTERNAL://localhost:9092

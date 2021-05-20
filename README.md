@@ -22,17 +22,16 @@ docker-compose up -d
 
 假设部署 3 台机器。
 
-步骤如下：
+请修改 `.env` 的内容为：
 
-1. 修改 `docker-compose.yml` 文件：机器 1 的 ZOO_ID 为 1，机器 2 的 ZOO_ID 为 2，机器 3 的 ZOO_ID 为 3。
-1. 修改 `docker-compose.yml` 文件：机器 1 的 KAFKA_BROKER_ID 为 1，机器 2 的 KAFKA_BROKER_ID 为 2，机器 3 的 KAFKA_BROKER_ID 为 3。
-1. 修改 `.env` 文件的 ZOO_SERVERS 变量：机器 1 的 server.1 值为 0.0.0.0:2888:3888，server.x 的值改为对应的 IP:2888:3888；机器 2 的 server.2 值为 0.0.0.0:2888:3888，server.x 的值改为对应的 IP:2888:3888；机器 3 的 server.3 值为 0.0.0.0:2888:3888，server.x 的值改为对应的 IP:2888:3888；
-1. 修改 `.env` 文件的 ZOO_CONNECT 变量：IP 替换为 3 台机器的 IP
-
-注意到了吧，ZOO_ID、KAFKA_BROKER_ID，以及 `.env` 文件中的值为 0.0.0.0:2888:3888 的 server.x 里的 x，这三个数字要保持一样。
+1. `MACHINE_ID`：每台机器分别修改为不同的数字，例如机器 B 的 MACHINE_ID 修改为 2。
+1. `ZOO_SERVERS`：将 server.x 的值修改为 0.0.0.0:2888:3888（这里的 x 就是上面的 MACHINE_ID 对应的数字），其他 server.y 的值改为对应的 IP:2888:3888。
+1. `ZOO_CONNECT`：3 台机器的 IP:2181，用半角逗号分隔开。
 
 然后，运行
 
 ```shell script
 docker-compose up -d
 ```
+
+🔥 **注意**：如果修改过 `.env` 或 `docker-compose.yml` 两个文件后，导致无法启动 kafka，只需要把当前目录下的 kafka 目录删掉，再重新运行 `docker start kafka` 就可以了。redis、zookeeper 亦如此。
