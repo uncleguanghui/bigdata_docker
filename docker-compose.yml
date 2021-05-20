@@ -21,25 +21,25 @@ services:
     environment:
       ZOO_ID: 1  # ZK 集群中本容器的唯一编号
       ZOO_PORT: 2181
-      ZOO_SERVERS: server.1=0.0.0.0:2888:3888  # ZK 集群中所有实例的逗号分隔列表
-  kafka:
-    image: cfei/kafka:latest-multiarch
-    container_name: kafka
-    restart: always
-    ports:
-      - 9092:9092
-      - 9093:9093
-    volumes:
-      - ./kafka:/data/kafka
-    environment:
-      KAFKA_BROKER_ID: 1  # Kafka 集群中本容器的唯一编号
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181  # Kafka 将连接到的 Zookeeper URI 的逗号分隔列表
-      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
-      KAFKA_ADVERTISED_LISTENERS: INTERNAL://localhost:9093,EXTERNAL://localhost:9092
-      KAFKA_LISTENERS: INTERNAL://0.0.0.0:9093,EXTERNAL://0.0.0.0:9092
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2  # consumer_offsets 主题的 replication factor 为 2，更高的持久性
-      KAFKA_DEFAULT_REPLICATION_FACTOR: 2  # 创建 topic 时默认 replication factor 为 2，允许 1 个 broker 宕机
-      KAFKA_MIN_INSYNC_REPLICAS: 2  # ISR 最小值
-      KAFKA_RETENTION_HOURS: 336
-    depends_on:
-      - zookeeper
+      ZOO_SERVERS: ${ZOO_SERVERS}  # ZK 集群中所有实例的逗号分隔列表
+  # kafka:
+  #   image: cfei/kafka:latest-multiarch
+  #   container_name: kafka
+  #   restart: always
+  #   ports:
+  #     - 9092:9092
+  #     - 9093:9093
+  #   volumes:
+  #     - ./kafka:/data/kafka
+  #   environment:
+  #     KAFKA_BROKER_ID: 1  # Kafka 集群中本容器的唯一编号
+  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181  # Kafka 将连接到的 Zookeeper URI 的逗号分隔列表
+  #     KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+  #     KAFKA_ADVERTISED_LISTENERS: INTERNAL://localhost:9093,EXTERNAL://localhost:9092
+  #     KAFKA_LISTENERS: INTERNAL://0.0.0.0:9093,EXTERNAL://0.0.0.0:9092
+  #     KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 2  # consumer_offsets 主题的 replication factor 为 2，更高的持久性
+  #     KAFKA_DEFAULT_REPLICATION_FACTOR: 2  # 创建 topic 时默认 replication factor 为 2，允许 1 个 broker 宕机
+  #     KAFKA_MIN_INSYNC_REPLICAS: 2  # ISR 最小值
+  #     KAFKA_RETENTION_HOURS: 336
+  #   depends_on:
+  #     - zookeeper
