@@ -6,15 +6,8 @@
 
 ## 单节点部署
 
-修改 `.env` 文件的内容为
-
-```text
-ZOO_SERVERS=server.1=0.0.0.0:2888:3888
-```
-
-然后，运行
-
 ```shell script
+mv .env.local .env  # 将 .env.local 重命名为 .env
 docker-compose up -d
 ```
 
@@ -22,14 +15,25 @@ docker-compose up -d
 
 假设部署 3 台机器。
 
-第一步，先添加以下端口到入站规则里：2181、2888、3888、9092、9093、6379，或者关闭防火墙（不建议）。
+第一步，先添加以下端口到入站规则里：2181、2888、3888、9092、9093、6379，或者关闭防火墙（不建议）。3 台机器都要添加。
 
-第二步，修改 `.env` 的内容为：
+第二步，对于 3 台机器，分别执行下面的三段代码
 
-1. `MACHINE_ID`：每台机器分别修改为不同的数字，例如机器 B 的 MACHINE_ID 修改为 2。
-1. `SERVER_IP`：每台机器分别修改为本机的 IP 地址，注意不能一样，也不能是 0.0.0.0/127.0.0.1/localhost 等。
-1. `ZOO_SERVERS`：将 server.x 的值修改为 0.0.0.0:2888:3888（这里的 x 就是上面的 MACHINE_ID 对应的数字），其他 server.y 的值改为对应的 IP:2888:3888。
-1. `ZOO_CONNECT`：3 台机器的 IP:2181，用半角逗号分隔开。
+```shell script
+# 对于机器 1 ，执行
+mv .env.cluster1 .env  # 将 .env.cluster1 重命名为 .env
+# 对于机器 2 ，执行
+mv .env.cluster2 .env  # 将 .env.cluster2 重命名为 .env
+# 对于机器 3 ，执行
+mv .env.cluster3 .env  # 将 .env.cluster3 重命名为 .env
+```
+
+解释一下 .env 的内容：
+
+1. `MACHINE_ID`：机器的唯一 ID，不能重复。
+1. `SERVER_IP`：机器的 IP 地址，不能重复，也不能是 0.0.0.0/127.0.0.1/localhost 等。
+1. `ZOO_SERVERS`：server.x 的值为 0.0.0.0:2888:3888（这里的 x 就是上面的 MACHINE_ID 对应的数字），其他 server.x 的值为对应的 IP:2888:3888。
+1. `ZOO_CONNECT`：所有机器的 IP:2181，用半角逗号分隔开。
 
 第三步，运行容器：
 
