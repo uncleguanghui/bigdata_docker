@@ -11,16 +11,13 @@ services:
     volumes:
       - ./redis:/data
   zookeeper:
-    image: cfei/zookeeper:latest-multiarch
+    image: zookeeper:3.7
     container_name: zookeeper
     restart: always
     ports:
       - 2181:2181
-      - 2888:2888
-      - 3888:3888
     environment:
-      ZOO_ID: ${MACHINE_ID}  # ZK 集群中本容器的唯一编号
-      ZOO_PORT: 2181
+      ZOO_MY_ID: ${MACHINE_ID}  # ZK 集群中本容器的唯一编号
       ZOO_SERVERS: ${ZOO_SERVERS}  # ZK 集群中所有实例的逗号分隔列表
   kafka:
     image: cfei/kafka:latest-multiarch
@@ -43,3 +40,18 @@ services:
       KAFKA_RETENTION_HOURS: 336
     depends_on:
       - zookeeper
+  kafkamanager:
+    image: scjtqs/kafka-manager
+    container_name: kafkamanager
+    restart: always
+    ports:
+      - 9000:9000
+    depends_on:
+      - zookeeper
+      - kafka
+    environment:
+      ZK_HOSTS: zookeeper:2181
+      APPLICATION_SECRET: letmein
+      KAFKA_MANAGER_AUTH_ENABLED: "true"
+      KAFKA_MANAGER_USERNAME: kafkamanager
+      KAFKA_MANAGER_PASSWORD: managerAdmin
