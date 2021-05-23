@@ -16,6 +16,8 @@ services:
     restart: always
     ports:
       - 2181:2181
+      - 2888:2888
+      - 3888:3888
     environment:
       ZOO_MY_ID: ${MACHINE_ID}  # ZK 集群中本容器的唯一编号
       ZOO_SERVERS: ${ZOO_SERVERS}  # ZK 集群中所有实例的逗号分隔列表
