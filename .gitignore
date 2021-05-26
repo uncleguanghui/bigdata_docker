@@ -3,5 +3,6 @@
 data/
 redis/
 kafka/
+mysql/
 
 .env
