@@ -21,6 +21,7 @@ services:
     environment:
       ZOO_MY_ID: ${MACHINE_ID}  # ZK 集群中本容器的唯一编号
       ZOO_SERVERS: ${ZOO_SERVERS}  # ZK 集群中所有实例的逗号分隔列表
+      KAFKA_DELETE_TOPIC_ENABLE: "true"  # 允许删除 topic
   kafka:
     image: schrbr/kafka:2.13-2.6.0
     container_name: kafka
@@ -37,7 +38,7 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: ${ZOO_CONNECT}
       KAFKA_ADVERTISED_HOST_NAME: ${SERVER_IP}
       KAFKA_LOG_RETENTION_HOURS: 24
-      KAFKA_JMX_OPTS: "-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=192.168.31.207 -Dcom.sun.management.jmxremote.rmi.port=1099"
+      KAFKA_JMX_OPTS: -Djava.rmi.server.hostname=${SERVER_IP} -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.rmi.port=1099
       JMX_PORT: 1099
   kafkamanager:
     image: scjtqs/kafka-manager

@@ -1,16 +1,19 @@
 # Multiarch Bigdata Docker
 
 ## 目录
+
 1. [简单介绍](#简单介绍)
 1. [单节点部署](#单节点部署)
 1. [多节点集群部署](#多节点集群部署)
 1. [各组件简易教程](#各组件简易教程)
-	1. [phpmyadmin](#phpmyadmin)
+    1. [phpmyadmin](#phpmyadmin)
 
 ## 简单介绍
+
 目前支持的系统架构 `amd64`、`arm/v7`、`arm64`，树莓派上也可以运行~
 
 在多种架构下，统一大数据环境部署，包括一下组件：
+
 * [x] redis
 * [x] kafka
 * [x] kafkamanager
@@ -78,4 +81,5 @@ docker-compose up -d
 ### phpmyadmin
 
 注意服务器栏不能是 localhost 或 127.0.0.1，而要是真实 IP
-![](doc/phpmyadmin.png)
+
+![phpmyadmin](doc/phpmyadmin.png)
